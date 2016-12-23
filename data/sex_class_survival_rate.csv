@@ -1,0 +1,7 @@
+Sex,Pclass,Sum_passengers,Sum_survived,Sum_deceased,Survival_rate
+female,1,94,91,3,96.80851064
+female,2,76,70,6,92.10526316
+female,3,144,72,72,50
+male,1,122,45,77,36.8852459
+male,2,108,17,91,15.74074074
+male,3,347,47,300,13.54466859
