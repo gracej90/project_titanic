@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://dimplejs.org/dist/dimple.v2.2.0.min.js"></script>
+
+        <style>
+        .chart, h1, h5 {
+            text-align: center;
+        }
+
+        div.buttons {
+          float: right;
+          margin-top: 25px;
+        }
+
+        div.buttons div {
+          background-color: lightgrey;
+          color: white;
+          padding: 7px;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>Titanic Passengers: who survived?</h1>
+        <h5>By: Grace Cho</h4>
+        <hr width="60%" align="center">
+        <br>
+        <!-- 1st chart -->
+        <div class = "chart" id="chartContainer">
+        <script type="text/javascript">
+            var width = 600,
+                height = 450,
+                margin = 50;
+
+            var svg = d3.select("#chartContainer")
+                        .append("svg")
+                        .attr("width", width + margin)
+                        .attr("height", height + margin);
+
+            // Create survival rate by passenger class chart
+            d3.csv("/data/sex_class_survival_rate.csv", function(data) {
+                var chart = new dimple.chart(svg, data);
+                var x = chart.addCategoryAxis("x", ["Pclass", "Sex"]);
+                x.addGroupOrderRule(["female", "male"]);
+                x.title = "Passenger Class";
+                var y = chart.addMeasureAxis("y", "Survival_rate");
+                y.title = "Survival Rate"
+                chart.addSeries("Sex", dimple.plot.bar);
+                chart.setBounds(100,90,420,370);
+                var myLegend = chart.addLegend(550, 100, 60, 300, "Right");
+
+                // Add chart title
+                svg.append("text")
+                   .attr("x", (width + margin) / 2)
+                   .attr("y", 50)
+                   .style("text-anchor", "middle")
+                   .style("font-weight", "bold")
+                   .style("font-size", "22px")
+                   .text("Survival Rate by Passenger Class");
+
+               chart.draw();
+             });
+        </script>
+        </div>
+        <br>
+        <!-- 2nd chart -->
+        <div class = "chart" id="chartContainer1">
+            <script type="text/javascript">
+                var width = 600,
+                    height = 450,
+                    margin = 50;
+
+                var svg1 = d3.select("#chartContainer1")
+                            .append("svg")
+                            .attr("width", width + margin)
+                            .attr("height", height + margin);
+
+                // Create survival rate by age groups chart
+                d3.csv("/data/sex_age_survival_rate.csv", function(data) {
+                    var chart = new dimple.chart(svg1, data);
+                    chart.setBounds(100,90,420,370);
+
+                    var x = chart.addCategoryAxis("x", ["age_group", "sex"]);
+                    x.addOrderRule("order");
+                    x.title = "Age Groups";
+                    var y = chart.addMeasureAxis("y", "survival_rate");
+                    y.title = "Survival Rate";
+                    chart.addSeries("sex", dimple.plot.bar);
+                    var myLegend = chart.addLegend(550, 100, 60, 300, "Right");
+
+                    // Add title chart
+                    svg1.append("text")
+                       .attr("x", (width + margin) / 2)
+                       .attr("y", 50)
+                       .style("text-anchor", "middle")
+                       .style("font-weight", "bold")
+                       .style("font-size", "22px")
+                       .text("Survival Rate by Age: An Overview");
+
+                    chart.draw();
+                  });
+        </script>
+        </div>
+    </body>
+</html>
